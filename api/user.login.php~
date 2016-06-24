@@ -1,0 +1,24 @@
+<?php session_start();
+	require_once("../connection/connection.php");
+	include_once("checkFunc.php");
+	if(!isset($_POST["name"]) || !isset($_POST["password"])) die('{"log":"input error"}');
+	$name = $_POST["name"]; $pwd = $_POST["password"];
+	if(!checkFunc($name, 1, 1, "")) die('{"log":"input error"}');
+	$sqlUser = @mysql_query("SELECT * FROM user WHERE name = \"$name\";") or die('{"log":"system error"}');
+	if(mysql_num_rows($sqlUser) !== 1) die('{"log":"no such user"}');
+	$password = mysql_result_check($sqlUser, 0, "password");
+	if(!password_verify($pwd, $password)) die('{"log":"wrong password"}');
+	$uid = mysql_result_check($sqlUser, 0, "uid");
+	$email = mysql_result_check($sqlUser, 0, "email");
+	$homepage = mysql_result_check($sqlUser, 0, "homepage");
+		$homepage = urldecode($homepage);
+	$level = mysql_result_check($sqlUser, 0, "level");
+	$_SESSION["status"] = "1";
+	$_SESSION["uid"] = $uid;
+	$_SESSION["name"] = $name;
+	$_SESSION["email"] = $email;
+	$_SESSION["homepage"] = $homepage;
+	$_SESSION["level"] = $level;
+	$_SESSION["password"] = $pwd;
+	die('{"log":"ok"}');
+?>

@@ -1,0 +1,40 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage{geometry}
+\geometry{
+	left=2cm,
+	right=1cm,
+	top=1.2cm,
+	bottom=1.5cm,
+	headsep=0.1cm,
+	footnotesep=0.1cm
+}
+
+\usepackage{fontspec}
+\setmainfont{Ubuntu Mono}
+
+\usepackage{graphicx}
+\usepackage[
+	CJKbookmarks=true,
+	colorlinks,
+	linkcolor=black,
+	anchorcolor=black,
+	citecolor=black
+]{hyperref}
+\usepackage{listings}
+\lstset{
+	language=C++,
+	breaklines=true,
+	numbers=left,
+	frame=leftline,
+	tabsize=4,
+}
+\usepackage{fancyhdr}
+\usepackage{makecell}
+
+\begin{document}
+	\input pagesettings.tex
+	\input cover.tex
+	\tableofcontents \clearpage
+	\input api.tex
+\end{document}
+

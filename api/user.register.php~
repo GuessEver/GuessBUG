@@ -1,0 +1,31 @@
+<?php @session_start();
+	require_once("../connection/connection.php");
+	include_once("checkFunc.php");
+	unset($_SESSION["status"]);
+	unset($_SESSION["uid"]);
+	unset($_SESSION["name"]);
+	unset($_SESSION["email"]);
+	unset($_SESSION["homepage"]);
+	unset($_SESSION["level"]);
+	if(!isset($_POST["invitation"]) || !isset($_POST["name"]) || !isset($_POST["password"]) || !isset($_POST["email"]) || !isset($_POST["homepage"])) die('{"log":"input error"}');
+	$invitation = $_POST["invitation"]; $name = $_POST["name"]; $pwd = $_POST["password"]; $email = $_POST["email"];
+	$homepage = $_POST["homepage"];
+		if($homepage === "") $homepage = $host_addr."blog/".$name;
+		if(substr($homepage, 0, 4) !== "http") $homepage = "http://" + $homepage; 
+		$homepage = urlencode($homepage);
+	if(!checkFunc($invitation, 1, 1, "")) die('{"log":"input error"}');
+	if(!checkFunc($name, 1, 1, "") || !checkFunc($pwd, 1, 1, "~!@#$%^&*()_-+=,.?:;")) die('{"log":"input error"}');
+	if(!checkEmail($email)) die('{"log":"input error"}');
+	if(strlen($name) < 5 || strlen($name) > 15 || !checkFunc($name[0], 0, 1, "")) die('{"log":"input error"}');
+	if(strlen($pwd) < 5 || strlen($pwd) > 30) die('{"log":"input error"}');
+	$sqlInvitation = @mysql_query("SELECT * FROM invitation WHERE string = \"$invitation\";") or die('{"log":"system error"}');
+	if(mysql_num_rows($sqlInvitation) === 0) die('{"log":"permission denied"}');
+	if(mysql_result_check($sqlInvitation, 0, "used") === "1") die('{"log":"permission denied"}');
+	$sqlInvitation_use = @mysql_query("UPDATE invitation SET used = 1 WHERE string  = \"$invitation\";") or die('{"log":"system error"}');
+	$sqlUser = @mysql_query("SELECT * FROM user WHERE name = \"$name\";") or die('{"log":"system error"}');
+	if(mysql_num_rows($sqlUser) !== 0) die('{"log":"username registered"}');
+	$pwd = md5($pwd); $pwd = password_hash($pwd, PASSWORD_BCRYPT);
+	$sqlUser_insert = @mysql_query("INSERT INTO user (name, password, email, homepage, level) VALUES (\"$name\", \"$pwd\", \"$email\", \"$homepage\", 1);")
+	or die('{"log":"system error"}');
+	die('{"log":"ok"}');
+?>

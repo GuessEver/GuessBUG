@@ -1,0 +1,153 @@
+\section{API Methods}
+The path has been rewriten already, so you can just use `guessbug.tk/api/\{Method Name\}?\{parameters\}` to get return values \\
+e.g. http://guessbug.tk/api/article.show?aid=2 \\
+	\subsection{USER}
+		\subsubsection{user.data}
+			\begin{tabular}{|p{150pt}|p{300pt}|}
+				\hline
+				\multicolumn{2}{|l|}{Incoming parameter} \\\Xhline{1.2pt}
+				\multicolumn{2}{|l|}{Return parameter} \\\Xhline{1.2pt}
+				status & 1(logged in)，0(logged out) \\\hline
+				level & level of user \\\hline
+				uid(login required) & user id \\\hline
+				name(login required) & user name \\\hline
+				email(login required) & user email \\\hline
+				homepage(login required) & user homepage \\\hline
+			\end{tabular} \\
+		\subsubsection{user.list}
+			\begin{tabular}{|p{150pt}|p{300pt}|}
+				\hline
+				\multicolumn{2}{|l|}{Incoming parameter} \\\Xhline{1.2pt}
+				\multicolumn{2}{|l|}{Return parameter} \\\Xhline{1.2pt}
+				log & system error, ok \\\hline
+				data & containing every single user's information: \\
+				 & uid, name, email, homepage, status \\\hline
+			\end{tabular} \\
+		\subsubsection{user.login}
+			\begin{tabular}{|p{150pt}|p{300pt}|}
+				\hline
+				\multicolumn{2}{|l|}{Incoming parameter} \\\Xhline{1.2pt}
+				[post]name(required) & User Name \\\hline
+				[post]password(required) & User Password \\\hline
+				\multicolumn{2}{|l|}{Return parameter} \\\Xhline{1.2pt}
+				log & input error, system error, no such user, wrong password, ok \\\hline
+			\end{tabular} \\
+		\subsubsection{user.logout}
+			\begin{tabular}{|p{150pt}|p{300pt}|}
+				\hline
+				\multicolumn{2}{|l|}{Incoming parameter} \\\Xhline{1.2pt}
+				\multicolumn{2}{|l|}{Return parameter} \\\Xhline{1.2pt}
+				log & ok \\\hline
+			\end{tabular} \\
+		\subsubsection{user.register}
+			\begin{tabular}{|p{150pt}|p{300pt}|}
+				\hline
+				\multicolumn{2}{|l|}{Incoming parameter} \\\Xhline{1.2pt}
+				[post]invitation(required) & Invitation Number \\\hline
+				[post]name(required) & User Name \\\hline
+				[post]password(required) & User Password \\\hline
+				[post]email(required) & User Email \\\hline
+				[post]homepage & User Homepage (`hostaddr`/blog/username as default) \\\hline
+				\multicolumn{2}{|l|}{Return parameter} \\\Xhline{1.2pt}
+				log & input error, system error, username repeated, ok \\\hline
+			\end{tabular} \\
+		\subsubsection{user.modify}
+			\begin{tabular}{|p{150pt}|p{300pt}|}
+				\hline
+				\multicolumn{2}{|l|}{Incoming parameter} \\\Xhline{1.2pt}
+				[post]uid(required) & User Id \\\hline
+				[post]oldPassword(required) & User Old Password \\\hline
+				[post]newPassword(required) & User New Password \\\hline
+				[post]email(required) & User Email \\\hline
+				[post]homepage(required) & User Homepage \\\hline
+				\multicolumn{2}{|l|}{Return parameter} \\\Xhline{1.2pt}
+				log & input error, system error, permission denied, ok \\\hline
+			\end{tabular} \\
+	\subsection{ARTICLE}
+		\subsubsection{article.show}
+			\begin{tabular}{|p{150pt}|p{300pt}|}
+				\hline
+				\multicolumn{2}{|l|}{Incoming parameter} \\\Xhline{1.2pt}
+				[get]aid(required) & Article Id \\\hline
+				\multicolumn{2}{|l|}{Return parameter} \\\Xhline{1.2pt}
+				log & input error, system error, no, ok \\\hline
+				data(log=ok required) & containing data: \\
+				 & aid, submit\_time, from\_uid, from\_username, to\_level, for\_prob\_oj, for\_prob\_id, title, content, visiblity \\\hline
+			\end{tabular} \\
+		\subsubsection{article.newly}
+			\begin{tabular}{|p{150pt}|p{300pt}|}
+				\hline
+				\multicolumn{2}{|l|}{Incoming parameter} \\\Xhline{1.2pt}
+				[get]number & the number of the newest article need to show \\\hline
+				\multicolumn{2}{|l|}{Return parameter} \\\Xhline{1.2pt}
+				log & input error, system error, ok \\\hline
+				data(log=ok required) & containing data of every article: \\
+				 & aid, submit\_time, from\_uid, from\_username, title \\\hline
+			\end{tabular} \\
+		\subsubsection{article.edit}
+			\begin{tabular}{|p{150pt}|p{300pt}|}
+				\hline
+				\multicolumn{2}{|l|}{Incoming parameter} \\\Xhline{1.2pt}
+				[get]aid(required) & Article Id \\\hline
+				[post]for\_prob\_oj(required) & OJ Name for this article \\\hline
+				[post]for\_porb\_id(required) & problem id in OJ for this article \\\hline
+				[post]title(required) & Article Title \\\hline
+				[post]content(required) & Article Content \\\hline
+				\multicolumn{2}{|l|}{Return parameter} \\\Xhline{1.2pt}
+				log & input error, system error, permission denied, ok \\\hline
+			\end{tabular} \\
+		\subsubsection{article.visible}
+			\begin{tabular}{|p{150pt}|p{300pt}|}
+				\hline
+				\multicolumn{2}{|l|}{Incoming parameter} \\\Xhline{1.2pt}
+				[get]aid(required) & Article Id \\\hline
+				[get]visible(required) & Article Visiblity \\\hline
+				\multicolumn{2}{|l|}{Return parameter} \\\Xhline{1.2pt}
+				log & input error, system error, permission denied, ok \\\hline
+			\end{tabular} \\
+		\subsubsection{article.new}
+			\begin{tabular}{|p{150pt}|p{300pt}|}
+				\hline
+				\multicolumn{2}{|l|}{Incoming parameter} \\\Xhline{1.2pt}
+				[post]for\_prob\_oj(required) & OJ Name for this article \\\hline
+				[post]for\_porb\_id(required) & problem id in OJ for this article \\\hline
+				[post]title(required) & Article Title \\\hline
+				[post]content(required) & Article Content \\\hline
+				\multicolumn{2}{|l|}{Return parameter} \\\Xhline{1.2pt}
+				log & input error, system error, permission denied, ok \\\hline
+				aid(log=ok required) & the id for the article submited just now \\\hline
+			\end{tabular} \\
+	\subsection{BLOG}
+		\subsubsection{blog.show}
+			\begin{tabular}{|p{150pt}|p{300pt}|}
+				\hline
+				\multicolumn{2}{|l|}{Incoming parameter} \\\Xhline{1.2pt}
+				[get]username(required) & User Name \\\hline
+				\multicolumn{2}{|l|}{Return parameter} \\\Xhline{1.2pt}
+				log & input error, system error, ok \\\hline
+				total\_pages & \\\hline
+				current\_page & \\\hline
+				data(log=ok required) & containing data: \\
+				 & aid, submit\_time, to\_level, title, visiblity \\\hline
+			\end{tabular} \\
+	\subsection{PROBLEM}
+		\subsubsection{problem.show}
+			\begin{tabular}{|p{150pt}|p{300pt}|}
+				\hline
+				\multicolumn{2}{|l|}{Incoming parameter} \\\Xhline{1.2pt}
+				[get]oj(required) & OJ Name \\\hline
+				[get]id(required) & id for problem in OJ \\\hline
+				\multicolumn{2}{|l|}{Return parameter} \\\Xhline{1.2pt}
+				log & input error, system error, ok \\\hline
+				data & containing data: \\
+				 & aid, title, author \\\hline
+			\end{tabular} \\
+	\subsection{OJ}
+		\subsubsection{oj.show}
+			\begin{tabular}{|p{150pt}|p{300pt}|}
+				\hline
+				\multicolumn{2}{|l|}{Incoming parameter} \\\Xhline{1.2pt}
+				\multicolumn{2}{|l|}{Return parameter} \\\Xhline{1.2pt}
+				log & system error, ok \\\hline
+				data & an array of OJs \\\hline
+			\end{tabular}
